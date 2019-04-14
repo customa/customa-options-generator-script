@@ -39,6 +39,17 @@ function formatSettings(settings) {
 		markdown += "}\n```\n";
 	});
 
+	markdown += "```css\n";
+	markdown += "/* this is how this channel is organized */\n";
+	markdown += "Category {\n";
+	markdown += "	module.m.css {\n";
+	markdown += "		/* list of options and modifications in the form of variables*/\n";
+	markdown += "	}\n";
+	markdown += "}\n";
+	markdown += "\n";
+	markdown += "/* your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css` */\n";
+	markdown += "```\n";
+
 	return markdown;
 }
 
