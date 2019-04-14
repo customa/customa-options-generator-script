@@ -3,8 +3,44 @@ const util = require("util");
 const glob = util.promisify(require("glob"));
 
 getSettings()
+	.then(formatSettings)
 	.then(console.log)
 	.catch(console.error);
+
+function formatSettings(settings) {
+	let markdown = "";
+
+	Object.keys(settings).forEach((_category) => {
+		markdown += "```css\n";
+		markdown += `${_category[0].toUpperCase()}${_category.substring(1)} {\n`;
+
+		let category = settings[_category];
+
+		Object.keys(category).forEach((_module) => {
+			let module = category[_module];
+
+			let settings = Object.keys(module);
+
+			if (settings.length == 0) {
+				markdown += `\t${_module} { /* no variables */ }\n`;
+			} else {
+				let md = `\t${_module} {\n`;
+
+				settings.forEach((setting) => {
+					let value = module[setting];
+	
+					md += `\t\t--${setting}: ${value};\n`;
+				});
+	
+				markdown += md + "\t}\n";
+			}
+		});
+
+		markdown += "}\n```\n";
+	});
+
+	return markdown;
+}
 
 function getSettings() {
 	return new Promise((resolve, reject) => {
