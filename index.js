@@ -29,11 +29,12 @@ function getSettings() {
 
 					if (/[ |\t]*--.*(\*\/|;)/.test(line)) {
 						let name = /[ |\t]*--(.*):/g.exec(line);
+						let value = /[ |\t]*--.*: (.*)/gm.exec(line);
 
-						if (!name)
+						if (!name || !value)
 							continue;
 
-						variables.push(name[1]);
+						variables.push(value[1]);
 					}
 				}
 
