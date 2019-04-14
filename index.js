@@ -55,8 +55,8 @@ function getSettings() {
 						// make ***sure*** line is variable
 						if (/[ |\t]*--.*(\*\/|;)/.test(line)) {
 							// get name and value of variable
-							let name = /[ |\t]*--(.*):/g.exec(line);
-							let value = /[ |\t]*--.*: *(.*);/gm.exec(line);
+							let name = /[ |\t]*--(.*): +/g.exec(line);
+							let value = /[ |\t]*--.*: +(.*);/gm.exec(line);
 
 							if (!name || !value)
 								continue;
