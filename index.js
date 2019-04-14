@@ -16,7 +16,7 @@ function getSettings() {
 			let variables = data.map((_content) => {
 				let content = _content.split(/\r\n|\n/);
 
-				let variables = [];
+				let variables = {};
 
 				for (let i = 0; i < content.length; i++) {
 					let line = content[i];
@@ -29,12 +29,12 @@ function getSettings() {
 
 					if (/[ |\t]*--.*(\*\/|;)/.test(line)) {
 						let name = /[ |\t]*--(.*):/g.exec(line);
-						let value = /[ |\t]*--.*: (.*)/gm.exec(line);
+						let value = /[ |\t]*--.*: *(.*);/gm.exec(line);
 
 						if (!name || !value)
 							continue;
 
-						variables.push(value[1]);
+						variables[name[1]] = value[1]
 					}
 				}
 
