@@ -28,7 +28,12 @@ function getSettings() {
 						continue;
 
 					if (/[ |\t]*--.*(\*\/|;)/.test(line)) {
-						variables.push(line);
+						let name = /[ |\t]*--(.*):/g.exec(line);
+
+						if (!name)
+							continue;
+
+						variables.push(name[1]);
 					}
 				}
 
