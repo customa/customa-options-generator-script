@@ -5,6 +5,8 @@ const glob = util.promisify(require("glob"));
 const app = require("./src/app");
 
 let args = process.argv.splice(2);
+
+// args
 { // split
 	let a = [];
 
@@ -40,16 +42,19 @@ let args = process.argv.splice(2);
 	});
 }
 
+// special flags
 const options = app.cli.options;
-
 if (options.help) {    // --help
+	// prints usage and flag functions
 	console.log("usage: script [flags]\n\nflags:" + _(app.cli.usage));
 	process.exit();
 
 	function _(object) {
 		let markdown = "";
 
+		// for each flag
 		Object.keys(object).forEach((key) => {
+			// append flag name and usage
 			markdown += `\n    ${key}:\t${object[key]}`;
 		});
 
@@ -60,11 +65,13 @@ if (options.help) {    // --help
 if (options.version) { // --version
 	let v = app.version;
 
+	// outputs "version: MAJOR.MINOR" (and ".PATCH" if >0)
 	console.log("version: " +
 		`${v.major}.${v.minor}${v.patch ? `.${v.patch}` : ""}`);
 	process.exit();
 }
 
+// run
 getSettings()
 	.then(formatSettings)
 	.then(console.log)
