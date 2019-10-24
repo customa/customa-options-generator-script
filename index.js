@@ -4,6 +4,33 @@ const glob = util.promisify(require("glob"));
 
 const app = require("./src/app");
 
+let args = process.argv.splice(2);
+{ // split
+	let a = [];
+
+	args.forEach((arg) => {
+		if (/^-[^-].+/gm.test(arg))
+			for (let i = 1; i < args.length; i++)
+				a.push(`-${arg[i]}`);
+		else
+			a.push(arg);
+	});
+
+	args = a;
+}
+{ // expand
+	let a = app.cli.alias;
+
+	args = args.map((_arg) => {
+		if (/^-[^-]/gm.test(_arg)) {
+			let arg = _arg[1];
+			return a[arg] ? `--${a[arg]}` : `--${arg}`;
+		} else {
+			return arg;
+		}
+	});
+}
+
 getSettings()
 	.then(formatSettings)
 	.then(console.log)
