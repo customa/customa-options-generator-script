@@ -40,12 +40,35 @@ let args = process.argv.splice(2);
 	});
 }
 
-/*
+const options = app.cli.options;
+
+if (options.help) {    // --help
+	console.log("usage: script [flags]\n\nflags:" + _(app.cli.usage));
+	process.exit();
+
+	function _(object) {
+		let markdown = "";
+
+		Object.keys(object).forEach((key) => {
+			markdown += `\n    ${key}:\t${object[key]}`;
+		});
+
+		return markdown;
+	}
+}
+
+if (options.version) { // --version
+	let v = app.version;
+
+	console.log("version: " +
+		`${v.major}.${v.minor}${v.patch ? `.${v.patch}` : ""}`);
+	process.exit();
+}
+
 getSettings()
 	.then(formatSettings)
 	.then(console.log)
 	.catch(console.error);
-*/
 
 function formatSettings(settings) {
 	// variable to store finalized message

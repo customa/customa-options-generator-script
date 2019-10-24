@@ -1,11 +1,8 @@
 module.exports = exports = {
-	semver: {
+	version: {
 		major: 0,
 		minor: 1,
 		patch: 0,
-		toString: () => {
-			return `${this.major}.${this.minor}${patch ? `.${this.patch}` : ""}`;
-		}
 	},
 	cli: {
 		options: {
