@@ -12,6 +12,10 @@ module.exports = exports = {
 			help: false,
 			version: false,
 		},
+		usage: {
+			help: "show usage and exit",
+			version: "show version and exit",
+		},
 		alias: {
 			"h": "help",
 			"v": "version",

@@ -10,7 +10,7 @@ let args = process.argv.splice(2);
 
 	args.forEach((arg) => {
 		if (/^-[^-].+/gm.test(arg))
-			for (let i = 1; i < args.length; i++)
+			for (let i = 1; i < arg.length; i++)
 				a.push(`-${arg[i]}`);
 		else
 			a.push(arg);
@@ -26,15 +26,26 @@ let args = process.argv.splice(2);
 			let arg = _arg[1];
 			return a[arg] ? `--${a[arg]}` : `--${arg}`;
 		} else {
-			return arg;
+			return _arg;
 		}
 	});
 }
+{ // set
+	args.forEach((_arg, i) => {
+		let arg = _arg.substring(2);
 
+		if (app.cli.options[arg] != undefined)
+			app.cli.options[arg] = (args[i + 1] || "--").startsWith("--") ?
+				true : args[i + 1];
+	});
+}
+
+/*
 getSettings()
 	.then(formatSettings)
 	.then(console.log)
 	.catch(console.error);
+*/
 
 function formatSettings(settings) {
 	// variable to store finalized message
