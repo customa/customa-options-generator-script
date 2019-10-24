@@ -2,43 +2,57 @@ const fs = require("fs");
 const util = require("util");
 const glob = util.promisify(require("glob"));
 
+const app = require("./src/app");
+
 getSettings()
 	.then(formatSettings)
 	.then(console.log)
 	.catch(console.error);
 
 function formatSettings(settings) {
+	// variable to store finalized message
 	let markdown = "";
 
+	// loop over each category
 	Object.keys(settings).forEach((_category) => {
+		// append category name
 		markdown += "```css\n";
 		markdown += `${_category[0].toUpperCase()}${_category.substring(1)} {\n`;
 
 		let category = settings[_category];
 
+		// loop over each module
 		Object.keys(category).forEach((_module) => {
 			let module = category[_module];
 
+			// get settings of module
 			let settings = Object.keys(module);
 
 			if (settings.length == 0) {
+				// fallback if module does not contain any options
+				// append module name and stub block
 				markdown += `\t${_module} { /* no variables */ }\n`;
 			} else {
+				// append module name
 				let md = `\t${_module} {\n`;
 
 				settings.forEach((setting) => {
 					let value = module[setting];
-	
+
+					// append setting and default value
 					md += `\t\t--${setting}: ${value};\n`;
 				});
 	
+				// close module block
 				markdown += md + "\t}\n";
 			}
 		});
 
+		// close category block
 		markdown += "}\n```\n";
 	});
 
+	// append explaination
 	markdown += "```css\n";
 	markdown += "/* this is how this channel is organized */\n";
 	markdown += "Category {\n";
