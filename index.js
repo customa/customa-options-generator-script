@@ -79,13 +79,13 @@ getSettings()
 
 function formatSettings(settings) {
 	// variable to store finalized message
-	let markdown = "";
+	let s = "";
 
 	// loop over each category
 	Object.keys(settings).forEach((_category) => {
 		// append category name
-		markdown += "```css\n";
-		markdown += `${_category[0].toUpperCase()}${_category.substring(1)} {\n`;
+		s += options.markdown ? "```css\n" : "\n";
+		s += `${_category[0].toUpperCase()}${_category.substring(1)} {\n`;
 
 		let category = settings[_category];
 
@@ -99,40 +99,53 @@ function formatSettings(settings) {
 			if (settings.length == 0) {
 				// fallback if module does not contain any options
 				// append module name and stub block
-				markdown += `\t${_module} { /* no variables */ }\n`;
+				s += options.markdown
+				   ? `    ${_module} { /* no variables */ }\n`
+				   : `    ${_module} { no variables }\n`
 			} else {
 				// append module name
-				let md = `\t${_module} {\n`;
+				let _s = `    ${_module} {\n`;
 
 				settings.forEach((setting) => {
 					let value = module[setting];
 
 					// append setting and default value
-					md += `\t\t--${setting}: ${value};\n`;
+					_s += `        --${setting}: ${value};\n`;
 				});
 	
 				// close module block
-				markdown += md + "\t}\n";
+				s += _s + "    }\n";
 			}
 		});
 
 		// close category block
-		markdown += "}\n```\n";
+		s += options.markdown ? "}\n```\n" : "}\n";
 	});
 
 	// append explaination
-	markdown += "```css\n";
-	markdown += "/* this is how this channel is organized */\n";
-	markdown += "Category {\n";
-	markdown += "	module.m.css {\n";
-	markdown += "		/* list of options and modifications in the form of variables*/\n";
-	markdown += "	}\n";
-	markdown += "}\n";
-	markdown += "\n";
-	markdown += "/* your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css` */\n";
-	markdown += "```\n";
+	if (options.explain) {
+		if (options.markdown) {
+			s += "```css\n";
+			s += "/* this is how this channel is organized */\n" +
+			     "Category {\n" +
+			     "    module.m.css {\n" +
+			     "        /* list of options and modifications in the form of variables */\n" +
+			     "    }\n" +
+			     "}\n\n" +
+			     "/* your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css\` */";
+			s += "\n```\n";
+		} else {
+			s += "\nthis is how this channel is organized:\n\n" +
+			     "Category {\n" +
+			     "    module.m.css {\n" +
+			     "        list of options and modifications in the form of variables\n" +
+			     "    }\n" +
+			     "}\n\n" +
+			     "your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css`\n";
+		}
+	}
 
-	return markdown;
+	return s;
 }
 
 function getSettings() {

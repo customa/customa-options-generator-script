@@ -8,14 +8,20 @@ module.exports = exports = {
 		options: {
 			help: false,
 			version: false,
+			markdown: false,
+			explain: false,
 		},
 		usage: {
 			help: "show usage and exit",
 			version: "show version and exit",
+			markdown: "format list as markdown",
+			explain: "appends help at end"
 		},
 		alias: {
 			"h": "help",
 			"v": "version",
+			"m": "markdown",
+			"e": "explain",
 		},
 	}
 }
