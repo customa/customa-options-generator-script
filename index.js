@@ -36,9 +36,13 @@ let args = process.argv.splice(2);
 	args.forEach((_arg, i) => {
 		let arg = _arg.substring(2);
 
-		if (app.cli.options[arg] != undefined)
+		if (app.cli.options[arg] != undefined) {
 			app.cli.options[arg] = (args[i + 1] || "--").startsWith("--") ?
 				true : args[i + 1];
+		} else {
+			console.log(`script: invalid option -- '${arg}'`);
+			process.exit(-1);
+		}
 	});
 }
 
@@ -55,7 +59,7 @@ if (options.help) {    // --help
 		// for each flag
 		Object.keys(object).forEach((key) => {
 			// append flag name and usage
-			markdown += `\n    ${key}:\t${object[key]}`;
+			markdown += `\n   --${key}\t${object[key]}`;
 		});
 
 		return markdown;
@@ -81,11 +85,16 @@ function formatSettings(settings) {
 	// variable to store finalized message
 	let s = "";
 
+	if (options.list && options.markdown)
+		s += "```css\n";
+
 	// loop over each category
 	Object.keys(settings).forEach((_category) => {
-		// append category name
-		s += options.markdown ? "```css\n" : "\n";
-		s += `${_category[0].toUpperCase()}${_category.substring(1)} {\n`;
+		if (!options.list) {
+			// append category name
+			s += options.markdown ? "```css\n" : "\n";
+			s += `${_category[0].toUpperCase()}${_category.substring(1)} {\n`;
+		}
 
 		let category = settings[_category];
 
@@ -96,34 +105,45 @@ function formatSettings(settings) {
 			// get settings of module
 			let settings = Object.keys(module);
 
-			if (settings.length == 0) {
-				// fallback if module does not contain any options
-				// append module name and stub block
-				s += options.markdown
-				   ? `    ${_module} { /* no variables */ }\n`
-				   : `    ${_module} { no variables }\n`
+			if (options.list) {
+				if (settings.length > 0) {
+					// for each variable in module
+					settings.forEach((setting) => 
+						// append setting and default value
+						s += `--${setting}: ${module[setting]};\n`);
+				}
 			} else {
-				// append module name
-				let _s = `    ${_module} {\n`;
+				if (settings.length == 0) {
+					// fallback if module does not contain any options
+					// append module name and stub block
+					s += options.markdown
+					? `    ${_module} { /* no variables */ }\n`
+					: `    ${_module} { no variables }\n`
+				} else {
+					// append module name
+					s += `    ${_module} {\n`;
 
-				settings.forEach((setting) => {
-					let value = module[setting];
-
-					// append setting and default value
-					_s += `        --${setting}: ${value};\n`;
-				});
-	
-				// close module block
-				s += _s + "    }\n";
+					// for each variable in module
+					settings.forEach((setting) =>
+						// append setting and default value
+						s += `        --${setting}: ${module[setting]};\n`);
+		
+					// close module block
+					s += "    }\n";
+				}
 			}
 		});
 
 		// close category block
-		s += options.markdown ? "}\n```\n" : "}\n";
+		if (!options.list)
+			s += options.markdown ? "}\n```\n" : "}\n";
 	});
 
+	if (options.list && options.markdown)
+		s += "```\n";
+
 	// append explaination
-	if (options.explain) {
+	if (options.explain && !options.list) {
 		if (options.markdown) {
 			s += "```css\n";
 			s += "/* this is how this channel is organized */\n" +

@@ -10,18 +10,21 @@ module.exports = exports = {
 			version: false,
 			markdown: false,
 			explain: false,
+			list: false,
 		},
 		usage: {
-			help: "show usage and exit",
-			version: "show version and exit",
-			markdown: "format list as markdown",
-			explain: "appends help at end"
+			help:     "[-h] show usage and exit",
+			version:  "[-v] show version and exit",
+			markdown: "[-m] format list as markdown",
+			explain:  "[-e] appends help at end",
+			list:     "[-l] only list variables",
 		},
 		alias: {
 			"h": "help",
 			"v": "version",
 			"m": "markdown",
 			"e": "explain",
+			"l": "list",
 		},
 	}
 }
