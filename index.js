@@ -38,7 +38,7 @@ let args = process.argv.splice(2);
 
 		if (app.cli.options[arg] !== undefined) {
 			app.cli.options[arg] = (args[i + 1] || "--").startsWith("--") ?
-				true : args[i + 1];
+								   true : args[i + 1];
 		} else {
 			console.log(`script: invalid option -- '${arg}'`);
 			process.exit(-1);
@@ -71,7 +71,7 @@ if (options.version) { // --version
 
 	// outputs "version: MAJOR.MINOR" (and ".PATCH" if >0)
 	console.log("version: " +
-		`${v.major}.${v.minor}${v.patch ? `.${v.patch}` : ""}`);
+				`${v.major}.${v.minor}${v.patch ? `.${v.patch}` : ""}`);
 	process.exit();
 }
 
@@ -109,24 +109,24 @@ function formatSettings(settings) {
 				if (settings.length > 0) {
 					// for each variable in module
 					settings.forEach((setting) =>
-						// append setting and default value
-						s += `--${setting}: ${module[setting]};\n`);
+										 // append setting and default value
+										 s += `--${setting}: ${module[setting]};\n`);
 				}
 			} else {
 				if (settings.length === 0) {
 					// fallback if module does not contain any options
 					// append module name and stub block
 					s += options.markdown
-						? `    ${_module} { /* no variables */ }\n`
-						: `    ${_module} { no variables }\n`
+						 ? `    ${_module} { /* no variables */ }\n`
+						 : `    ${_module} { no variables }\n`
 				} else {
 					// append module name
 					s += `    ${_module} {\n`;
 
 					// for each variable in module
 					settings.forEach((setting) =>
-						// append setting and default value
-						s += `        --${setting}: ${module[setting]};\n`);
+										 // append setting and default value
+										 s += `        --${setting}: ${module[setting]};\n`);
 
 					// close module block
 					s += "    }\n";
@@ -147,21 +147,21 @@ function formatSettings(settings) {
 		if (options.markdown) {
 			s += "```css\n";
 			s += "/* this is how this channel is organized */\n" +
-				"Category {\n" +
-				"    module.m.css {\n" +
-				"        /* list of options and modifications in the form of variables */\n" +
-				"    }\n" +
-				"}\n\n" +
-				"/* your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css\` */";
+				 "Category {\n" +
+				 "    module.m.css {\n" +
+				 "        /* list of options and modifications in the form of variables */\n" +
+				 "    }\n" +
+				 "}\n\n" +
+				 "/* your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css\` */";
 			s += "\n```\n";
 		} else {
 			s += "\nthis is how this channel is organized:\n\n" +
-				"Category {\n" +
-				"    module.m.css {\n" +
-				"        list of options and modifications in the form of variables\n" +
-				"    }\n" +
-				"}\n\n" +
-				"your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css`\n";
+				 "Category {\n" +
+				 "    module.m.css {\n" +
+				 "        list of options and modifications in the form of variables\n" +
+				 "    }\n" +
+				 "}\n\n" +
+				 "your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css`\n";
 		}
 	}
 
