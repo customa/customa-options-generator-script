@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "TestNick / mininmobile",
+  "repository": "https://github.com/mininmobile/customa-options-generator-script",
   "license": "MIT",
   "dependencies": {
     "glob": "^7.1.3"

@@ -36,7 +36,7 @@ let args = process.argv.splice(2);
 	args.forEach((_arg, i) => {
 		let arg = _arg.substring(2);
 
-		if (app.cli.options[arg] != undefined) {
+		if (app.cli.options[arg] !== undefined) {
 			app.cli.options[arg] = (args[i + 1] || "--").startsWith("--") ?
 				true : args[i + 1];
 		} else {
@@ -108,17 +108,17 @@ function formatSettings(settings) {
 			if (options.list) {
 				if (settings.length > 0) {
 					// for each variable in module
-					settings.forEach((setting) => 
+					settings.forEach((setting) =>
 						// append setting and default value
 						s += `--${setting}: ${module[setting]};\n`);
 				}
 			} else {
-				if (settings.length == 0) {
+				if (settings.length === 0) {
 					// fallback if module does not contain any options
 					// append module name and stub block
 					s += options.markdown
-					? `    ${_module} { /* no variables */ }\n`
-					: `    ${_module} { no variables }\n`
+						? `    ${_module} { /* no variables */ }\n`
+						: `    ${_module} { no variables }\n`
 				} else {
 					// append module name
 					s += `    ${_module} {\n`;
@@ -127,7 +127,7 @@ function formatSettings(settings) {
 					settings.forEach((setting) =>
 						// append setting and default value
 						s += `        --${setting}: ${module[setting]};\n`);
-		
+
 					// close module block
 					s += "    }\n";
 				}
@@ -142,26 +142,26 @@ function formatSettings(settings) {
 	if (options.list && options.markdown)
 		s += "```\n";
 
-	// append explaination
+	// append explanation
 	if (options.explain && !options.list) {
 		if (options.markdown) {
 			s += "```css\n";
 			s += "/* this is how this channel is organized */\n" +
-			     "Category {\n" +
-			     "    module.m.css {\n" +
-			     "        /* list of options and modifications in the form of variables */\n" +
-			     "    }\n" +
-			     "}\n\n" +
-			     "/* your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css\` */";
+				"Category {\n" +
+				"    module.m.css {\n" +
+				"        /* list of options and modifications in the form of variables */\n" +
+				"    }\n" +
+				"}\n\n" +
+				"/* your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css\` */";
 			s += "\n```\n";
 		} else {
 			s += "\nthis is how this channel is organized:\n\n" +
-			     "Category {\n" +
-			     "    module.m.css {\n" +
-			     "        list of options and modifications in the form of variables\n" +
-			     "    }\n" +
-			     "}\n\n" +
-			     "your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css`\n";
+				"Category {\n" +
+				"    module.m.css {\n" +
+				"        list of options and modifications in the form of variables\n" +
+				"    }\n" +
+				"}\n\n" +
+				"your import link would then be `https://customa.gitlab.io/Customa-Discord/Category/module.m.css`\n";
 		}
 	}
 
@@ -190,7 +190,6 @@ function getSettings() {
 			// get all categories
 			Object.keys(data).forEach((category) => {
 				let modules = data[category];
-
 				let newCategory = {};
 
 				// get all modules in a category
@@ -206,7 +205,7 @@ function getSettings() {
 
 						// save time by only looping through :root
 						// :root should be at start of file so the first closing bracket belongs to it
-						if (line == "}")
+						if (line === "}")
 							break;
 
 						// ignore internal variables (settings module, variables module)
