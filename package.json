@@ -1,15 +1,15 @@
 {
-  "name": "customa-options-generator-script",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "TestNick / mininmobile",
-  "repository": "https://github.com/mininmobile/customa-options-generator-script",
-  "license": "MIT",
-  "dependencies": {
-    "glob": "^7.1.3"
-  }
+	"name": "customa-options-generator-script",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "TestNick / mininmobile",
+	"repository": "https://github.com/mininmobile/customa-options-generator-script",
+	"license": "MIT",
+	"dependencies": {
+		"glob": "^7.1.3"
+	}
 }
